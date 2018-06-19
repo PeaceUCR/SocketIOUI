@@ -2,13 +2,11 @@
  * Created by hea on 6/12/18.
  */
 
-import io from 'socket.io-client';
 
 /*
+
 export const constant ={
     server: 'http://localhost:5000',
-    notificationSocket : io('http://localhost:5000/notification', { path: '/socket.io'}),
-    chatSocket: io('http://localhost:5000/chat', { path: '/socket.io'}),
     newsurl: 'https://newsapi.org/v2/top-headlines',
     newsapikey: '4f850ae6cf93486f8012540b62510ecb',
     country: {
@@ -75,8 +73,6 @@ export const constant ={
 
 export const constant ={
     server: '',
-    notificationSocket : io('/notification', { path: '/socket.io'}),
-    chatSocket: io('/chat', { path: '/socket.io'}),
     newsurl: 'https://newsapi.org/v2/top-headlines',
     newsapikey: '4f850ae6cf93486f8012540b62510ecb',
     country: {

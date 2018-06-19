@@ -9,37 +9,14 @@ import { setUser,getUser, logOut, addMessage, setRoomUser}from '../actions/index
 import {constant} from '../constants';
 import UserDetails from './UserDetails';
 import NewsBlock from  './NewsBlock';
-
+import io from 'socket.io-client';
 
 class PrivateRoom extends Component {
 
     constructor(props){
         super(props);
-        this.config = this.config.bind(this);
-        //for session get user, the config should be excute after user has been set
-        //we need to set a state in the component to indicate the user loading is finish
-        //to render when loading finish, otherwise  'can't read property of null'
-
-        this.state = {room: this.props.room, openEmoji: false ,loading: this.props.user?false:true};
-        let that = this;
-         if(this.props.user) {
-             this.config();
-         }else {
-             this.props.getUser().then(function () {
-                 // if can't get user, should do nothing waiting redirect to /gate
-                 if(that.props.user){
-                     that.config();
-                     that.setState({loading:false});
-                 }
-             });
-         }
-
-
-
-    }
-
-    config(){
         this.input = React.createRef();
+        this.config = this.config.bind(this);
         this.handleSend =this.handleSend.bind(this);
         this.renderMessage = this.renderMessage.bind(this);
         this.onKeyPress = this.onKeyPress.bind(this);
@@ -49,9 +26,34 @@ class PrivateRoom extends Component {
         this.openEmojis =  this.openEmojis.bind(this);
 
 
+        //it's hard to put the socket to somewhere else not in this file, then the config() of socket will not be executed?
+       // this.chatSocket =io('/chat', { path: '/socket.io', transports: ['websocket'], upgrade: false});
+        this.chatSocket =io('http://localhost:5000/chat', { path: '/socket.io', transports: ['websocket'], upgrade: false});
+
+        this.state = {room: this.props.room, openEmoji: false ,loading: this.props.user?false:true};
+
+        let that = this;
+
+        //for session get user, the config should be excute after user has been set
+        //we need to set a state in the component to indicate the user loading is finish
+        //to render when loading finish, otherwise  'can't read property of null'
+        if(this.props.user) {
+            this.config();
+        }else {
+            this.props.getUser().then(function () {
+                // if can't get user, should do nothing waiting redirect to /gate
+                if(that.props.user){
+                    that.config();
+                    that.setState({loading:false});
+                }
+            });
+        }
+
+
+    }
+
+    config(){
         //this.props.connectSocket();
-
-
         let that = this;
 
         //socket = io(constant.server);
@@ -78,34 +80,34 @@ class PrivateRoom extends Component {
         console.log('config');
         console.log(params);
         //Add room params
-        constant.chatSocket.emit('join', params, function (error) {
-            console.log('User has join room: '+params.room) ;
+        this.chatSocket.emit('join', params, function (error) {
+            console.log('Join room err '+params.room) ;
         });
 
-        constant.chatSocket.emit('fetchRoomUserList', params, function (error) {
+        this.chatSocket.emit('fetchRoomUserList', params, function (error) {
             console.log('fetch room list error:'+error);
         });
 
-        constant.chatSocket.on('getRoomUserList',function (data) {
+        this.chatSocket.on('getRoomUserList',function (data) {
             console.log('roomlist'+data);
             that.props.setRoomUser(data);
         });
 
-        constant.chatSocket.on('newMessage',function (data) {
+        this.chatSocket.on('newMessage',function (data) {
             console.log('newMessage room:'+data.room);
             console.log('newMessage:'+data.text);
             //console.log('newMessage:'+data.sender);
             that.props.addMessage(data);
         });
 
-        constant.chatSocket.on('addRoomUser',function (data) {
+        this.chatSocket.on('addRoomUser',function (data) {
             // console.log(data);
             let users = that.props.roomuser.slice(0);
             users.push(data.user);
             that.props.setRoomUser(users);
         });
 
-        constant.chatSocket.on('removeRoomUser',function (data) {
+        this.chatSocket.on('removeRoomUser',function (data) {
             // console.log(data);
 
             let users = [];
@@ -125,7 +127,7 @@ class PrivateRoom extends Component {
         console.log('send click');
         let data = this.input.current.value;
         if(data.length>0){
-            constant.chatSocket.emit('createMessage',{text: data, room: this.state.room, sender: this.props.user?this.props.user:null});
+            this.chatSocket.emit('createMessage',{text: data, room: this.state.room, sender: this.props.user?this.props.user:null});
             this.input.current.value = '';
         }
     }
@@ -174,6 +176,10 @@ class PrivateRoom extends Component {
         this.setState({openEmoji: !this.state.openEmoji});
     }
 
+
+    componentWillMount(){
+    }
+
     render(){
         console.log(this.state);
         if(this.state.loading){
@@ -207,6 +213,12 @@ class PrivateRoom extends Component {
         if(dialog){
             dialog.scrollTop = dialog.scrollHeight;
         }
+    }
+
+
+
+    componentWillUnmount(){
+        this.chatSocket.disconnect();
     }
 
 }

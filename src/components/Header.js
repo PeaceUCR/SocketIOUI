@@ -6,11 +6,12 @@ import React, {Component} from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { logOut }from '../actions/index';
-
+import io from 'socket.io-client';
 class Header extends Component {
     constructor(props){
         super(props);
         this.menu = React.createRef();
+        //this.notificationSocket =io('/notification', { path: '/socket.io',transports: ['websocket'], upgrade: false});
     }
 
 
