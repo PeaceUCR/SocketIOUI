@@ -10,7 +10,7 @@
 import React, {Component} from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { setUser, logOut }from '../actions/index';
+import { setUser, logOut ,sendRequest}from '../actions/index';
 import {constant} from '../constants';
 import axios from 'axios';
 
@@ -56,9 +56,12 @@ class UserDetails extends Component {
 
 
     handleClick(){
+        //if(this.state.user&&this.props.user)
         console.log('click');
+
         if(this.state.user){
-            constant.notificationSocket.emit('sendRequest',{sender:this.props.user , target: this.state.user})
+            let params = {sender:this.props.user, target: this.state.user};
+            this.props.sendRequest(params);
         }
     }
 
@@ -109,7 +112,7 @@ class UserDetails extends Component {
 
 //use this to call action creater in class by props
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({setUser: setUser, logOut: logOut}, dispatch);
+    return bindActionCreators({setUser: setUser, logOut: logOut,sendRequest: sendRequest }, dispatch);
 }
 
 //use this to get app state in class by props

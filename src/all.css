@@ -16,6 +16,78 @@
   font-size: 1.8rem;
 }
 
+.header .rightheader{
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+}
+
+.header .rightheader>i{
+  line-height: 20px;
+  padding: 20px 10px;
+  font-size: 28px;
+  cursor: pointer;
+}
+
+.header .rightheader>i.yes{
+  color: red;
+}
+
+.header .rightheader>i.no{
+  color: darkgrey;
+}
+
+.header .rightheader .notifications{
+  display: none;
+  z-index: 99;
+  position: absolute;
+  padding: 5px 5px;
+  width: 200px;
+  height: 200px;
+  overflow: auto;
+  bottom: -200px;
+  left: -155px;
+  background: white;
+  flex-direction: column;
+}
+
+.header .rightheader .notifications.yes{
+  display: flex;
+}
+.notification{
+  border: 1px solid gray;
+  padding: 5px 0;
+  cursor: pointer;
+  -webkit-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+}
+
+.notification:hover {
+  background: greenyellow;
+}
+
+.notification .type{
+  font-weight: bold;
+  margin:0;
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.notification .avatar{
+  padding: 1px 2px;
+  border-radius: 3px;
+
+
+}
+
+.notification .avatar img{
+  width: 25px;
+  height: 25px;
+}
+
 .header .userDiv{
   position: relative;
   display: flex;
@@ -562,6 +634,19 @@ div.send button:hover{
   justify-content: flex-start;
   margin: 5px auto;
 }
+.userList .avatar{
+  padding: 1px 2px;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.5s ease;
+}
+
+.userList .avatar:hover{
+  color: yellowgreen;
+  background: white;
+}
+
+
 .userList .avatar img{
   width: 25px;
   height: 25px;

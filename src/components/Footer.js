@@ -14,7 +14,7 @@ class Footer extends Component {
 
     render() {
         return <div className="footer">
-            <h1>This is the test app developed by Ping He/Peace/Adam</h1>
+            <h1>This is the demo app developed by Ping He/Peace/Adam <a href="https://github.com/PeaceUCR/SocketIO">source code</a></h1>
             <div className="icons">
                 <p><i className="fab fa-qq"></i>940814202</p>
                 <p><i className="fab fa-weixin"></i>pinghe_2016</p>

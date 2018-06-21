@@ -8,6 +8,8 @@ import ErrorMsgReducer from './ErrorMsgReducer'
 import MessageReducer from './MessageReducer'
 import RoomUserReducer from  './RoomUserReducer'
 import NewsReducer from './NewsReducer'
+import SocketStatusReducer from './SocketStatusReducer'
+import NotificationReducer from './NotificationReducer'
 import { routerReducer } from 'react-router-redux'
 
 const appReducer = combineReducers({
@@ -16,6 +18,8 @@ const appReducer = combineReducers({
     error: ErrorMsgReducer,
     message: MessageReducer,
     news: NewsReducer,
+    socketStatus: SocketStatusReducer,
+    notification: NotificationReducer,
     router: routerReducer
 });
 

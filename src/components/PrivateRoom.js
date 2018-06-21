@@ -5,11 +5,11 @@
 import React, {Component} from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { setUser,getUser, logOut, addMessage, setRoomUser}from '../actions/index';
+import { setUser,getUser, logOut, joinChat, sendChatMessage,  disconnectChatSocket, redirect}from '../actions/index';
 import {constant} from '../constants';
 import UserDetails from './UserDetails';
 import NewsBlock from  './NewsBlock';
-import io from 'socket.io-client';
+
 
 class PrivateRoom extends Component {
 
@@ -27,8 +27,8 @@ class PrivateRoom extends Component {
 
 
         //it's hard to put the socket to somewhere else not in this file, then the config() of socket will not be executed?
-       // this.chatSocket =io('/chat', { path: '/socket.io', transports: ['websocket'], upgrade: false});
-        this.chatSocket =io('http://localhost:5000/chat', { path: '/socket.io', transports: ['websocket'], upgrade: false});
+        //this.chatSocket =io('/chat', { path: '/socket.io', transports: ['websocket'], upgrade: false});
+        //this.chatSocket =io('http://localhost:5000/chat', { path: '/socket.io', transports: ['websocket'], upgrade: false});
 
         this.state = {room: this.props.room, openEmoji: false ,loading: this.props.user?false:true};
 
@@ -79,6 +79,10 @@ class PrivateRoom extends Component {
         let params = {room: that.state.room, sender:that.props.user};
         console.log('config');
         console.log(params);
+
+
+        this.props.joinChat(params);
+        /*
         //Add room params
         this.chatSocket.emit('join', params, function (error) {
             console.log('Join room err '+params.room) ;
@@ -87,6 +91,8 @@ class PrivateRoom extends Component {
         this.chatSocket.emit('fetchRoomUserList', params, function (error) {
             console.log('fetch room list error:'+error);
         });
+
+        /*
 
         this.chatSocket.on('getRoomUserList',function (data) {
             console.log('roomlist'+data);
@@ -119,6 +125,7 @@ class PrivateRoom extends Component {
 
             that.props.setRoomUser(users);
         });
+        */
     }
 
     handleSend(){
@@ -127,7 +134,8 @@ class PrivateRoom extends Component {
         console.log('send click');
         let data = this.input.current.value;
         if(data.length>0){
-            this.chatSocket.emit('createMessage',{text: data, room: this.state.room, sender: this.props.user?this.props.user:null});
+            let params = {text: data, room: this.state.room, sender: this.props.user?this.props.user:null};
+            this.props.sendChatMessage(params);
             this.input.current.value = '';
         }
     }
@@ -151,8 +159,12 @@ class PrivateRoom extends Component {
     renderRoomuser(){
         //console.log(this.props.message);
         if(this.props.roomuser){
+            let that = this;
             return this.props.roomuser.map(function (item, index, items) {
-                return <a href={'/user/'+item.id} key={"user"+index} className='avatar'><img src={item.userImage}></img><span>{item.username}</span></a>
+
+                return <a onClick={function () {
+                    that.props.redirect('/user/'+item.id);
+                }} key={"user"+index} className='avatar'><img src={item.userImage}></img><span>{item.username}</span></a>
             }, this);
         }
     }
@@ -178,6 +190,7 @@ class PrivateRoom extends Component {
 
 
     componentWillMount(){
+
     }
 
     render(){
@@ -218,7 +231,7 @@ class PrivateRoom extends Component {
 
 
     componentWillUnmount(){
-        this.chatSocket.disconnect();
+        this.props.disconnectChatSocket();
     }
 
 }
@@ -226,7 +239,7 @@ class PrivateRoom extends Component {
 
 //use this to call action creater in class by props
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({setUser: setUser, getUser: getUser, logOut: logOut, addMessage:addMessage, setRoomUser:setRoomUser}, dispatch);
+    return bindActionCreators({setUser: setUser, getUser: getUser, logOut: logOut,joinChat: joinChat,sendChatMessage:sendChatMessage, disconnectChatSocket: disconnectChatSocket, redirect: redirect}, dispatch);
 }
 
 //use this to get app state in class by props
