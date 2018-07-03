@@ -22,6 +22,7 @@ const rmiddleware = routerMiddleware(history);
  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
  );
  const store = createStore(appReducer, compose(applyMiddleware(thunk, rmiddleware),enhancers));
+
 */
 const store = createStore(appReducer, applyMiddleware(thunk, rmiddleware));
 

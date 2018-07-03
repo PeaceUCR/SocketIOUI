@@ -24,13 +24,13 @@ class PrivateRoom extends Component {
         this.renderUserDetails = this.renderUserDetails.bind(this);
         this.renderEmojis =this.renderEmojis.bind(this);
         this.openEmojis =  this.openEmojis.bind(this);
-
+        this.openChat = this.openChat.bind(this);
 
         //it's hard to put the socket to somewhere else not in this file, then the config() of socket will not be executed?
         //this.chatSocket =io('/chat', { path: '/socket.io', transports: ['websocket'], upgrade: false});
         //this.chatSocket =io('http://localhost:5000/chat', { path: '/socket.io', transports: ['websocket'], upgrade: false});
 
-        this.state = {room: this.props.room, openEmoji: false ,loading: this.props.user?false:true};
+        this.state = {room: this.props.room, openEmoji: false ,loading: this.props.user?false:true, openChat:false};
 
         let that = this;
 
@@ -171,7 +171,7 @@ class PrivateRoom extends Component {
 
     renderUserDetails(){
         if(this.props.user){
-            return <UserDetails id = {this.props.user.id} />
+            return <UserDetails uid = {this.props.user.id} />
         }
     }
 
@@ -188,7 +188,11 @@ class PrivateRoom extends Component {
         this.setState({openEmoji: !this.state.openEmoji});
     }
 
-
+    openChat(){
+        this.setState({
+            openChat: !this.state.openChat
+        });
+    }
     componentWillMount(){
 
     }
@@ -199,7 +203,9 @@ class PrivateRoom extends Component {
             return <div>Loading</div>;
         }else{
             return <div className="chatRoom">
-                <div className="main">
+                {this.renderUserDetails()}
+                <div className={this.state.openChat?"main open":"main"}>
+                    <i className="fas fa-times-circle" id="closeDialog" onClick={this.openChat}></i>
                     <p className="title">Current Room:{this.state?this.state.room: 'unknown'}</p>
                     <p className="title">Online Members:</p>
                     <div className="userList">
@@ -213,9 +219,11 @@ class PrivateRoom extends Component {
                     </div>
                     <div className={this.state?(this.state.openEmoji?"emojiDiv open": "emojiDiv"):"emojiDiv"}>
                         {this.renderEmojis()}
+                        <div className="pointer"></div>
                     </div>
                 </div>
                 <NewsBlock />
+                <i className="fas fa-comments" id="chatIcon" onClick={this.openChat}></i>
             </div>;
         }
     }

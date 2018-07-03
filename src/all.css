@@ -179,7 +179,7 @@ form .forgot{
   margin: 0.2rem 0;
 }
 input{
-  font-size: 1.6rem;
+  font-size: 1.4rem;
   background-color: white;
   margin: 0.5rem 0;
   border-radius: 0.2rem;
@@ -462,18 +462,76 @@ body {
   flex-direction: row;
 }
 /*home page start here*/
+#closeDialog{
+  position: absolute;
+  font-size: 20px;
+  right: 10px;
+  top: 10px;
+  color: white;
+  cursor: pointer;
+  transition: all 0.5s ease;
+}
+#closeDialog:hover{
+  color: red;
+}
+
+#chatIcon{
+  z-index: 99;
+  position: fixed;
+  font-size: 80px;
+  right: 10%;
+  bottom: 10%;
+  cursor: pointer;
+  transition: all 0.5s ease;
+}
+
+#chatIcon:hover{
+  color: greenyellow;
+  animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+@keyframes shake {
+  10%, 90% {
+    transform: translate3d(-1px, 0, 0);
+  }
+
+  20%, 80% {
+    transform: translate3d(2px, 0, 0);
+  }
+
+  30%, 50%, 70% {
+    transform: translate3d(-4px, 0, 0);
+  }
+
+  40%, 60% {
+    transform: translate3d(4px, 0, 0);
+  }
+}
 
 .main{
+  display: none;
   position: fixed;
-  left: 10px;
-  top: 90px;
+  left: calc(50% - 210px);
+  top: 80px;
   width: 420px;
+  background: white;
+  padding: 20px 4px;
+  border-radius: 20px;
+  z-index: 100;
+  background: linear-gradient(135deg,rgb(0, 138, 177),rgb(0, 58, 75));
+}
+
+.main.open{
+  display: block;
 }
 
 .main>p.title{
-  margin: 5px auto;
+  margin: 0px auto;
+  padding: 10px 3px;
   font-size: 18px;
-  padding-left: 3px;
 }
 
 
@@ -488,11 +546,17 @@ div.send .emojiInput{
   font-size: 1.4rem;
   padding: 1px;
   cursor: pointer;
-
+  position: absolute;
+  right: 6.2rem;
 }
 div.send input{
   margin: 0;
   flex-grow: 1;
+  border: none;
+  border-radius: 0;
+  border-bottom: 2px solid darkgray;
+  background: transparent;
+  color: white;
 }
 
 div.send button{
@@ -501,7 +565,7 @@ div.send button{
   display: block;
   transition: all 0.5s ease;
   font-size: 1.4rem;
-  width: 6rem;
+  width: 90px;
   border: 2px solid gray;
   padding: 3px 0;
   border-radius: 4px;
@@ -514,27 +578,46 @@ div.send button:hover{
 
 .emojiDiv{
   position: absolute;
-  bottom: -64px;
-  max-width: 100%;
+  bottom: 64px;
+  left:7%;
+  width: 85%;
   display: none;
   flex-direction: row;
   flex-wrap: wrap;
   background: white;
   padding: 2px 4px;
+  border-radius: 5px;
 }
-.emojiDiv.open{
+.open{
   display: flex;
+  box-shadow: 0 0 20px;
 }
 .emojiDiv .emoji{
   font-size: 20px;
   cursor: pointer;
+  transition: all 0.1s linear;
+}
+
+.emojiDiv .emoji:hover{
+  transform: scale(1.3);
+}
+
+.emojiDiv .pointer{
+  position: absolute;
+  bottom: -8px;
+  right: 70px;
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 8px solid #fff;
 }
 
 .msgs{
   height: 400px;
   overflow: auto;
   margin: 0 auto;
-  border: 1px solid gray;
+  background: white;
 }
 
 .msgs .msg{
@@ -849,7 +932,7 @@ div.send button:hover{
   flex-grow: 1;
   display: flex;
   flex-direction: column;
-  margin-left: 460px;
+  margin-left: 60px;
   width: calc(100% - 480px);
   position: relative;
 }
@@ -959,7 +1042,7 @@ div.send button:hover{
   cursor: pointer;
 }
 
- #go a{
+#go a{
   font-size: 28px;
   font-weight: bold;
   text-decoration: none;
@@ -998,8 +1081,26 @@ div.send button:hover{
 }
 
 @media only screen and (max-width: 600px) {
+  body{
+    padding: 0;
+    margin: 0;
+  }
+
+  .header{
+    align-items: center;
+  }
+  .header h1{
+    margin: 0;
+    padding: 5px 0;
+    font-size: 1.8rem;
+  }
+
   .header h1 span{
     display: none;
+  }
+
+  .header .userDiv span{
+    font-size: 1.8rem ;
   }
 
   .chatRoom{
@@ -1007,15 +1108,21 @@ div.send button:hover{
     align-items: center;
   }
 
-  .main{
-    position: static;
-    width: 80%;
+  .chatRoom .profile{
+    display: none;
   }
 
-  div.send{
-    position: relative;
-    flex-wrap: wrap;
-    justify-content: center;
+  .main{
+    width: 80%;
+    left: 10%;
+  }
+
+  div.send .emojiInput{
+    right: 82px;
+  }
+
+  div.send button{
+    width: 80px;
   }
 
   .newsBlock{
@@ -1025,11 +1132,13 @@ div.send button:hover{
   }
 
   .emojiDiv{
-    width: 80%;
     padding: 0;
     margin: 0;
-    bottom: 90px;
     z-index: 99;
+  }
+
+  .emojiDiv .pointer{
+    right: 62px;
   }
 
 }

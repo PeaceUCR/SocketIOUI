@@ -3,8 +3,8 @@
  */
 
 
-/*
 
+/*
 export const constant ={
     server: 'http://localhost:5000',
     newsurl: 'https://newsapi.org/v2/top-headlines',
@@ -66,7 +66,7 @@ export const constant ={
         'Venuzuela':'ve'
     },
     category:{'Business':'business','Entertainment':'entertainment', 'General':'general', 'Health':'health', 'Sports':'sports', 'Technology':'technology'},
-    emojiList: ['😀','😅','🙂','😚','😝','😔','🙁','😫','😭','😡','😱','🤥','😯','😵','😷','👌','👍','🤝','🐶','🐱','🐭','🐹','🐰','🦊','🐻','🐼','🐨','🐯','🐷']
+    emojiList: ['😀','😅','🙂','😚','😝','😔','🙁','😫','😭','😡','😱','🤥','😯','😵','😷','👌','👍','🤝','🐶','🐱','🐭','🐹','🐰','🦊','🐻','🐼','🐨','🐯','🐷','🐸']
 
 };
 */

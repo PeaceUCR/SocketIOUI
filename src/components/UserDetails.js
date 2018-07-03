@@ -54,7 +54,6 @@ class UserDetails extends Component {
     }
 
 
-
     handleClick(){
         //if(this.state.user&&this.props.user)
         console.log('click');
