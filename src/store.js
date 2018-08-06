@@ -17,14 +17,14 @@ const rmiddleware = routerMiddleware(history);
 
 // for chrome debug extension
 //https://stackoverflow.com/questions/37526621/no-store-found-when-using-redux-chrome-extension
-
+/*
  const enhancers = compose(
  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
  );
  const store = createStore(appReducer, compose(applyMiddleware(thunk, rmiddleware),enhancers));
 
-
-//const store = createStore(appReducer, applyMiddleware(thunk, rmiddleware));
+*/
+const store = createStore(appReducer, applyMiddleware(thunk, rmiddleware));
 
 store.history = history;
 

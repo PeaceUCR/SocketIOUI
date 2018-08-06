@@ -1,10 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+import Gate from './components/Gate';
 import HomePage from './containers/HomePage';
-import LoadingSpinner from './components/LoadingSpinner'
+import UserPage from './containers/UserPage';
 
-import registerServiceWorker from './registerServiceWorker';
+import RoomPage from  './containers/RoomPage';
+//import registerServiceWorker from './registerServiceWorker';
 import './all.css';
 import createHistory from 'history/createBrowserHistory';
 import { Route} from 'react-router';
@@ -19,12 +21,14 @@ ReactDOM.render(
     <Provider store={store}>
         <ConnectedRouter history={store.history}>
             <div >
-                <Route  path="/" component={LoadingSpinner} />
-                <Route  path="/" component={HomePage} />
+                <Route  exact={true} path="/" component={HomePage} />
+                <Route  exact={true} path="/gate" component={Gate} />
+                <Route  path="/room/:roomname" component={RoomPage} />
+                <Route  path="/user/:id" component={UserPage} />
             </div>
         </ConnectedRouter>
     </Provider>
     , document.getElementById('root'));
 
 //registerService will affect the server routing
-registerServiceWorker();
+//registerServiceWorker();

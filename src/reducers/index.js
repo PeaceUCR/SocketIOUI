@@ -3,15 +3,24 @@
  */
 
 import {combineReducers} from 'redux'
-
+import UserReducer from './UserReducer'
 import ErrorMsgReducer from './ErrorMsgReducer'
-import URLReducer from './URLReducer'
-import LoadingReducer from './LoadingReducer'
+import MessageReducer from './MessageReducer'
+import RoomUserReducer from  './RoomUserReducer'
+import NewsReducer from './NewsReducer'
+import SocketStatusReducer from './SocketStatusReducer'
+import NotificationReducer from './NotificationReducer'
+import { routerReducer } from 'react-router-redux'
 
 const appReducer = combineReducers({
-    urls: URLReducer,
-    loading: LoadingReducer,
-    error: ErrorMsgReducer
+    user: UserReducer,
+    roomuser: RoomUserReducer,
+    error: ErrorMsgReducer,
+    message: MessageReducer,
+    news: NewsReducer,
+    socketStatus: SocketStatusReducer,
+    notification: NotificationReducer,
+    router: routerReducer
 });
 
 export default appReducer;

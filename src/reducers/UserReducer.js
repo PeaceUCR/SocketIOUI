@@ -1,17 +1,19 @@
 /**
- * Created by hea on 6/4/18.
+ * Created by hea on 4/1/18.
  */
 
 const initialState = null;
-//set current error
-function ErrorMsgReducer(preState = initialState, action) {
+
+function UserReducer(preState = initialState, action) {
     switch (action.type) {
-        case "setError":
+        case "setUser":
             console.log(action.payload);
             return action.payload;
+        case "logOut":
+            return null;
         default:
             return preState;
     }
 }
 
-export default ErrorMsgReducer;
+export default UserReducer;
