@@ -2,8 +2,9 @@
  * Created by hea on 6/18/18.
  */
 import React, {Component} from 'react';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
+import Uploader from '../components/Uploader'
+import URLCollection from '../components/URLCollection'
+
 class HomePage extends Component {
     constructor(props){
         super(props);
@@ -11,20 +12,10 @@ class HomePage extends Component {
 
     render() {
         return <div>
-            <Header/>
-            <div className="home">
-                <div className="homeimg">
-                    <img src ="/home.jpg"/>
-                    <p className="chat">Type message to chat</p>
-                    <i className="chatArrow fas fa-arrow-down"></i>
-                    <p className="country">Select Country to get news</p>
-                    <i className="countryArrow fas fa-arrow-down"></i>
-                    <p className="category">Select Category to get news</p>
-                    <i className="categoryArrow fas fa-arrow-down"></i>
-                    <div id="go"><a href="/room/private">Get Started</a></div>
-                </div>
-            </div>
-            <Footer/>
+            <div className="global-header"><img src="http://api-int.connectcdk.com/api/dm-websites-vendor-mapping/v1/cdk-global.png"></img><h1>Welcome to Retail Insight</h1></div>
+            <Uploader/>
+            <URLCollection />
+            <div className="download"><button><i className="fas fa-download"></i>Download Report</button></div>
         </div>;
     }
 }

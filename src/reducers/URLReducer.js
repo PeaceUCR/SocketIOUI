@@ -1,12 +1,12 @@
 /**
- * Created by hea on 6/6/18.
+ * Created by hea on 8/6/18.
  */
 
 const initialState = [];
-
-function RoomUserReducer(preState = initialState, action) {
+//set current error
+function URLReducer(preState = initialState, action) {
     switch (action.type) {
-        case "setRoomUser":
+        case "getURL":
             console.log(action.payload);
             return action.payload;
         default:
@@ -14,4 +14,4 @@ function RoomUserReducer(preState = initialState, action) {
     }
 }
 
-export default RoomUserReducer;
+export default URLReducer;
